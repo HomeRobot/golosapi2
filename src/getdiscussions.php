@@ -181,10 +181,10 @@ class APICall_getdiscussions extends APICall
 			if('{"tags":["nsfw"]}' == $metadata)
 			{
 				$data['tags'] = "nsfw";
+			}	
 			$out[] = $data;
 		}
 		echo json_encode($out);
 		return; 
 	}
 }
-?>
