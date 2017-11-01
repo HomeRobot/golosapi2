@@ -4,7 +4,7 @@
 
 require_once('api.php');
 
-class APICall_getdiscussions extends APICall
+class APICall_getnewbies extends APICall
 {
 	public function query($params = array())
 	{
@@ -102,14 +102,16 @@ class APICall_getdiscussions extends APICall
 			}
 			$exclude_category = " and parent_permlink not in ($catslist)";
 		}
-		if(array_key_exists('ignore_body', $params))
+		if(!array_key_exists('ignore_body', $params))
 		{
-			$sql = "select $top ID, author, permlink, parent_author, parent_permlink, title, json_metadata, active_votes, last_update, pending_payout_value, total_pending_payout_value, total_payout_value, created from Comments where parent_author = '' $title $category $from $to $exclude_category $author order by $order $offset";
+			$sql = "select $top * from Comments where body not LIKE '@@%' and parent_author = '' and title <> '' and author in (select author from Comments group by author having count(author) < 3) $title $category $from $to $exclude_category $author order by $order $offset";
 		}
 		else
 		{
-			$sql = "select $top * from Comments where body not LIKE '@@%' and parent_author = '' $title $category $from $to $exclude_category $author order by $order $offset";
+			$sql = "select $top ID, author, permlink, parent_author, parent_permlink, title, json_metadata, active_votes, last_update, pending_payout_value, total_pending_payout_value, total_payout_value, created from Comments where body not LIKE '@@%' and parent_author = '' and title <> '' and author in (select author from Comments group by author having count(author) < 3) $title $category $from $to $exclude_category $author order by $order $offset";
 		}
+			
+		
 		
 		$out = array();
 		if(array_key_exists('sql', $params))
@@ -178,10 +180,10 @@ class APICall_getdiscussions extends APICall
 				}
 			}	
 			$data['title'] = $row['title'];
-			if(!array_key_exists('ignore_body', $params))
+			/*if(!array_key_exists('ignore_body', $params))
 			{
 				$data['body'] = $row['body'];
-			}
+			}*/
 			$data['author'] = $row['author'];
 			$data['permlink'] = $row['permlink'];			
 			$data['parent_permlink'] = $row['parent_permlink'];
