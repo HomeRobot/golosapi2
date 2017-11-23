@@ -77,4 +77,4 @@ New API for GOLOS blockchain based on SQL Database
 - **offset** - смещение от начала выборки
 - **order** - порядок сортировки
 - **from_date** - начиная с указанной даты
-- **to** - по указанную дату
+- **to_date** - по указанную дату
