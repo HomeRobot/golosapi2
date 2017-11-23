@@ -68,7 +68,7 @@ New API for GOLOS blockchain based on SQL Database
 Параметры метода: 
 - **login** - ник автора 
 
-##gettransfers
+## gettransfers
 Метод возвращает информацию по переводам между пользователями
 Параметры метода:
 - **from** - логин отправителя
